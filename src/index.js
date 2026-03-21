@@ -52,7 +52,9 @@ async function dmUser(discordId, content) {
   try {
     const user = await client.users.fetch(discordId);
     await user.send(content);
-  } catch (_) {}
+  } catch (err) {
+    console.error(`[DM] Failed to DM ${discordId}:`, err.message);
+  }
 }
 
 async function sendPanelDM(discordId) {
@@ -116,6 +118,15 @@ client.once(Events.ClientReady, async () => {
     ].filter(l => l !== null).join('\n');
 
     await dmUser(discordId, msg);
+
+    if (user?.forward_webhook) {
+      try {
+        const axios = require('axios');
+        await axios.post(user.forward_webhook, { content: msg }, { timeout: 5000 });
+      } catch (err) {
+        console.error(`[Webhook] Failed to forward for ${discordId}:`, err.message);
+      }
+    }
   };
 
   // ── Alert callback ────────────────────────────────────────────

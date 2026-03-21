@@ -71,6 +71,9 @@ async function getDb() {
     "ALTER TABLE users ADD COLUMN delay_max INTEGER DEFAULT 8",
     "ALTER TABLE users ADD COLUMN instant_fcfs INTEGER DEFAULT 1",
     "ALTER TABLE users ADD COLUMN max_winners INTEGER DEFAULT 0",
+    "ALTER TABLE raffle_entries ADD COLUMN wallet_used TEXT",
+    "CREATE TABLE IF NOT EXISTS wallets (id INTEGER PRIMARY KEY AUTOINCREMENT, discord_id TEXT, address TEXT, blockchain TEXT DEFAULT 'ETH', label TEXT, active INTEGER DEFAULT 1, created_at TEXT DEFAULT (datetime('now')))",
+    "CREATE TABLE IF NOT EXISTS blocklist (id INTEGER PRIMARY KEY AUTOINCREMENT, discord_id TEXT, type TEXT, value TEXT, created_at TEXT DEFAULT (datetime('now')))",
   ];
   for (const sql of migrations) {
     try { db.run(sql); } catch (_) {} // ignore if column already exists

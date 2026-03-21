@@ -64,6 +64,18 @@ async function getDb() {
     );
   `);
 
+  // Migration — add new columns if they don't exist
+  const migrations = [
+    "ALTER TABLE users ADD COLUMN forward_webhook TEXT",
+    "ALTER TABLE users ADD COLUMN delay_min INTEGER DEFAULT 3",
+    "ALTER TABLE users ADD COLUMN delay_max INTEGER DEFAULT 8",
+    "ALTER TABLE users ADD COLUMN instant_fcfs INTEGER DEFAULT 1",
+    "ALTER TABLE users ADD COLUMN max_winners INTEGER DEFAULT 0",
+  ];
+  for (const sql of migrations) {
+    try { db.run(sql); } catch (_) {} // ignore if column already exists
+  }
+
   save();
   return db;
 }

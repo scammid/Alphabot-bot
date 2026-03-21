@@ -180,12 +180,10 @@ client.on(Events.GuildMemberAdd, async member => {
 client.on(Events.InteractionCreate, async interaction => {
   if (interaction.isChatInputCommand()) {
 
-    if (interaction.commandName === 'panel') {
-      await db.upsertUser(interaction.user.id, interaction.user.username);
-      const dbUser = await db.getUser(interaction.user.id);
-      const panel = buildControlPanel(dbUser);
-      // Ephemeral = only visible to the user who ran /panel, nobody else can see or click it
-      return interaction.reply({ ...panel, ephemeral: true });
+if (interaction.commandName === 'panel') {
+      await interaction.reply({ content: '✅ Panel posted! Click any button — only you will see your own responses.', ephemeral: true });
+      await interaction.channel.send(buildSharedPanel());
+      return;
     }
 
     if (interaction.commandName === 'setup') {

@@ -2,7 +2,7 @@ const db = require('./database');
 const alphabot = require('./alphabot');
 
 // Check every 5 minutes for upcoming mints
-const BANNER_URL = 'https://raw.githubusercontent.com/scammid/Alphabot-bot/main/63F7A489-69AF-4533-9CC6-72D07ACD11E4.png';
+const BANNER_URL = 'https://raw.githubusercontent.com/scammid/Alphabot-bot/main/63F7A489-69AF-4533-9CC6-72D07ACD11E4.webp';
 
 async function startMintReminderLoop(dmCallback) {
   console.log('[Mint] Starting mint reminder loop...');

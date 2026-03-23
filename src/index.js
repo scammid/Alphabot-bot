@@ -4,7 +4,7 @@ const { handleInteraction } = require('./handlers/interactionHandler');
 const { buildSharedPanel } = require('./utils/panelBuilder');
 const { runLoop } = require('./services/autoEnter');
 
-const BANNER_URL = 'https://raw.githubusercontent.com/scammid/Alphabot-bot/main/63F7A489-69AF-4533-9CC6-72D07ACD11E4.png';
+const BANNER_URL = 'https://raw.githubusercontent.com/scammid/Alphabot-bot/main/63F7A489-69AF-4533-9CC6-72D07ACD11E4.webp';
 const { startMintReminderLoop } = require('./services/mintReminder');
 const db = require('./services/database');
 

@@ -2,7 +2,7 @@ const db = require('./database');
 const alphabot = require('./alphabot');
 
 // Check every 5 minutes for upcoming mints
-const BANNER_URL = 'https://raw.githubusercontent.com/scammid/Alphabot-bot/main/63F7A489-69AF-4533-9CC6-72D07ACD11E4.webp';
+const BANNER_URL = 'https://raw.githubusercontent.com/scammid/Alphabot-bot/main/63F7A489-69AF-4533-9CC6-72D07ACD11E4.png';
 
 async function startMintReminderLoop(dmCallback) {
   console.log('[Mint] Starting mint reminder loop...');
@@ -18,12 +18,6 @@ async function startMintReminderLoop(dmCallback) {
 
         const diff = mintDate - now; // ms until mint
         const hoursLeft = diff / (1000 * 60 * 60);
-
-        // 72h reminder
-        if (!r.reminded_72h && hoursLeft <= 72 && hoursLeft > 24) {
-          await dmCallback(r.discord_id, buildReminderMsg(r, '72 hours'));
-          await db.markReminder(r.id, 'reminded_72h');
-        }
 
         // 24h reminder
         if (!r.reminded_24h && hoursLeft <= 24 && hoursLeft > 1) {

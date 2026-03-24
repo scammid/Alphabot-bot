@@ -218,5 +218,5 @@ module.exports = {
   setCustomTeamIds, setDelay, setInstantFcfs, setMaxWinners, removeUser, getAllRunningUsers,
   getWallets, addWallet, removeWallet, getNextWallet,
   getBlocklist, addToBlocklist, removeFromBlocklist, isBlocked,
-  logEntry, getStats, addMintReminder, getPendingReminders, markReminder,
+  logEntry, getStats,
 };

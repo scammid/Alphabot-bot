@@ -4,7 +4,7 @@ const { handleInteraction } = require('./handlers/interactionHandler');
 const { buildSharedPanel } = require('./utils/panelBuilder');
 const { runLoop } = require('./services/autoEnter');
 
-const BANNER_URL = 'https://raw.githubusercontent.com/scammid/Alphabot-bot/main/63F7A489-69AF-4533-9CC6-72D07ACD11E4.webp';
+const BANNER_URL = 'https://raw.githubusercontent.com/scammid/Alphabot-bot/main/63F7A489-69AF-4533-9CC6-72D07ACD11E4.png';
 const { startMintReminderLoop } = require('./services/mintReminder');
 const db = require('./services/database');
 
@@ -83,6 +83,7 @@ async function sendWelcomeDM(member) {
             `> All your button responses are private — only you can see them!`
           )
           .setColor(0x5865f2)
+          .setImage(BANNER_URL)
           .setFooter({ text: 'AlphaBot Auto-Enter • 100% Private • 24/7' })
       ]
     });
@@ -175,20 +176,25 @@ client.once(Events.ClientReady, async () => {
     }
 
     if (type === 'twitter_issue') {
-      await dmUser(discordId,
-        `⚠️ **X (Twitter) Account Issue Detected**\n\n` +
-        `The bot failed X/Twitter requirements on one or more raffles.\n\n` +
-        `**Possible reasons:**\n` +
-        `• Your X account is **suspended or restricted**\n` +
-        `• Your X account has been **disconnected** from Alphabot\n` +
-        `• X API is temporarily down\n\n` +
-        `**How to fix:**\n` +
-        `1. Go to https://alphabot.app → Settings\n` +
-        `2. Find the **X (Twitter)** connection\n` +
-        `3. Disconnect and reconnect your X account\n` +
-        `4. Check https://twitter.com to make sure your account isn't suspended\n\n` +
-        `Raffles requiring X will be skipped until this is resolved.`
-      );
+      const twitterEmbed = new EmbedBuilder()
+        .setTitle('⚠️ X (Twitter) Account Issue Detected')
+        .setDescription(
+          `The bot failed X/Twitter requirements on one or more raffles.\n\n` +
+          `**Possible reasons:**\n` +
+          `• Your X account is **suspended or restricted**\n` +
+          `• Your X account has been **disconnected** from Alphabot\n` +
+          `• X API is temporarily down\n\n` +
+          `**How to fix:**\n` +
+          `1. Go to https://alphabot.app → Settings\n` +
+          `2. Find the **X (Twitter)** connection\n` +
+          `3. Disconnect and reconnect your X account\n` +
+          `4. Check https://twitter.com to make sure your account isn't suspended\n\n` +
+          `Raffles requiring X will be skipped until this is resolved.`
+        )
+        .setColor(0xfee75c)
+        .setImage(BANNER_URL)
+        .setTimestamp();
+      await dmUser(discordId, { embeds: [twitterEmbed] });
     }
   };
 

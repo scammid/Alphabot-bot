@@ -219,4 +219,5 @@ module.exports = {
   getWallets, addWallet, removeWallet, getNextWallet,
   getBlocklist, addToBlocklist, removeFromBlocklist, isBlocked,
   logEntry, getStats,
+  addMintReminder, getPendingReminders, markReminder,
 };

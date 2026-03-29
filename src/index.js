@@ -99,6 +99,7 @@ client.once(Events.ClientReady, async () => {
   // ── Notify callback ───────────────────────────────────────────
   const notifyCallback = async (discordId, stats, user) => {
     if (stats.rateLimited) return;
+    if (stats.entered === 0) return;
     const mode = user?.mode || 'all';
     const modeLabel = mode === 'communities' ? 'Community' : mode === 'custom' ? 'Custom Teams' : 'All Raffles';
     const now = new Date().toISOString().replace('T', ' ').slice(0, 19) + ' UTC';

@@ -136,7 +136,7 @@ async function handleInteraction(interaction, client) {
           return interaction.editReply({ content: `❌ **Invalid API key:** ${validation.error}\n\nMake sure you copied the full key from alphabot.app → Settings → Developer settings.` });
         }
         await db.setApiKey(userId, apiKey);
-        if (forwardWebhook) await db.setForwardWebhook(userId, forwardWebhook);
+        await db.setForwardWebhook(userId, forwardWebhook || null);
         const updated = await db.getUser(userId);
         return interaction.editReply({
           content: '✅ **API key saved!** Click **🟢 Start** to begin auto-entering raffles.',
@@ -161,7 +161,7 @@ async function handleInteraction(interaction, client) {
         const forwardWebhook = interaction.fields.getTextInputValue('forward_webhook').trim();
         await db.setDelay(userId, delayMin, delayMax);
         await db.setInstantFcfs(userId, instantFcfs);
-        if (forwardWebhook) await db.setForwardWebhook(userId, forwardWebhook);
+        await db.setForwardWebhook(userId, forwardWebhook || null);
         const updated = await db.getUser(userId);
         return interaction.editReply({
           content: `✅ **Settings saved!**`,

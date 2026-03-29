@@ -101,7 +101,7 @@ async function enterRaffle(apiKey, slug, mintAddress, retries = 2) {
 async function checkWins(apiKey) {
   try {
     const client = createClient(apiKey);
-    const res = await client.get('/raffles', { params: { status: 'active', filter: 'winners', pageSize: 50 } });
+    const res = await client.get('/raffles', { params: { status: 'finalized', filter: 'winners', pageSize: 50 } });
     return { success: true, wins: res.data?.data?.raffles || [] };
   } catch (_) {
     return { success: false, wins: [] };

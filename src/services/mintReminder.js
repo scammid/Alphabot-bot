@@ -19,6 +19,12 @@ async function startMintReminderLoop(dmCallback) {
         const diff = mintDate - now; // ms until mint
         const hoursLeft = diff / (1000 * 60 * 60);
 
+        // 72h reminder
+        if (!r.reminded_72h && hoursLeft <= 72 && hoursLeft > 24) {
+          await dmCallback(r.discord_id, buildReminderMsg(r, '72 hours'));
+          await db.markReminder(r.id, 'reminded_72h');
+        }
+
         // 24h reminder
         if (!r.reminded_24h && hoursLeft <= 24 && hoursLeft > 1) {
           await dmCallback(r.discord_id, buildReminderMsg(r, '24 hours'));

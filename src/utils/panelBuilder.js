@@ -34,6 +34,7 @@ function buildSharedPanel() {
 
   const row3 = new ActionRowBuilder().addComponents(
     new ButtonBuilder().setCustomId('manage_blocklist').setLabel('Blocklist').setEmoji('🚫').setStyle(ButtonStyle.Secondary),
+    new ButtonBuilder().setCustomId('manage_blocklist_add').setLabel('Block Project').setEmoji('➕').setStyle(ButtonStyle.Secondary),
     new ButtonBuilder().setCustomId('settings').setLabel('Settings').setEmoji('⚙️').setStyle(ButtonStyle.Secondary),
     new ButtonBuilder().setCustomId('stats').setLabel('Stats').setEmoji('📊').setStyle(ButtonStyle.Secondary),
     new ButtonBuilder().setCustomId('logs').setLabel('Logs').setEmoji('📋').setStyle(ButtonStyle.Secondary),

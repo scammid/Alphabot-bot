@@ -178,11 +178,18 @@ async function logEntry(id, raffleId, name, team, status, wallet) {
   await getDb();
   run(`INSERT INTO raffle_entries (discord_id, raffle_id, raffle_name, team_name, wallet_used, status) VALUES (?,?,?,?,?,?)`,
     [id, raffleId, name, team, wallet || null, status]);
-  if (status === 'entered' || status === 'won') {
-    run(`UPDATE users SET total_entered=total_entered+1, total_won=total_won+?, updated_at=datetime('now') WHERE discord_id=?`,
-      [status === 'won' ? 1 : 0, id]);
+  if (status === 'entered') {
+    run(`UPDATE users SET total_entered=total_entered+1, updated_at=datetime('now') WHERE discord_id=?`, [id]);
+  } else if (status === 'won') {
+    run(`UPDATE users SET total_won=total_won+1, updated_at=datetime('now') WHERE discord_id=?`, [id]);
   }
 }
+async function getWonSlugs(id) {
+  await getDb();
+  const rows = all('SELECT raffle_id FROM raffle_entries WHERE discord_id=? AND status=?', [id, 'won']);
+  return rows.map(r => r.raffle_id);
+}
+
 async function getStats(id) {
   await getDb();
   return {
@@ -218,6 +225,6 @@ module.exports = {
   setCustomTeamIds, setDelay, setInstantFcfs, setMaxWinners, removeUser, getAllRunningUsers,
   getWallets, addWallet, removeWallet, getNextWallet,
   getBlocklist, addToBlocklist, removeFromBlocklist, isBlocked,
-  logEntry, getStats,
+  logEntry, getWonSlugs, getStats,
   addMintReminder, getPendingReminders, markReminder,
 };

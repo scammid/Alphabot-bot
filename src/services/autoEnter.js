@@ -18,8 +18,11 @@ function getEntered(id) {
   if (!enteredThisSession.has(id)) enteredThisSession.set(id, new Set());
   return enteredThisSession.get(id);
 }
-function getKnownWins(id) {
-  if (!knownWins.has(id)) knownWins.set(id, new Set());
+async function getKnownWins(id) {
+  if (!knownWins.has(id)) {
+    const past = await db.getWonSlugs(id);
+    knownWins.set(id, new Set(past));
+  }
   return knownWins.get(id);
 }
 
@@ -36,7 +39,7 @@ async function processUser(user, alertCallback) {
   const { discord_id, alphabot_api_key, mode, custom_team_ids,
     delay_min, delay_max, instant_fcfs, max_winners } = user;
   const entered = getEntered(discord_id);
-  const wins = getKnownWins(discord_id);
+  const wins = await getKnownWins(discord_id);
 
   // Check rate limit cooldown
   const cooldown = rateLimitUntil.get(discord_id);

@@ -131,7 +131,7 @@ async function processUser(user, alertCallback) {
     const wallet = null;
 
     // Enter with retry
-    const res = await alphabot.enterRaffle(alphabot_api_key, slug, wallet, 2);
+    const res = await alphabot.enterRaffle(alphabot_api_key, slug, wallet, 3);
     entered.add(slug);
 
     if (res.rateLimited) {

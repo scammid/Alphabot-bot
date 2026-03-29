@@ -6,7 +6,7 @@ function createClient(apiKey) {
   return axios.create({
     baseURL: BASE_URL,
     headers: { 'Authorization': `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
-    timeout: 30000,
+    timeout: 60000,
   });
 }
 
@@ -86,8 +86,10 @@ async function enterRaffle(apiKey, slug, mintAddress, retries = 2) {
     const status = err.response?.status;
     const message = err.response?.data?.errors?.[0]?.message || err.message;
     if (err.code === 'ECONNABORTED' && retries > 0) {
-      console.log(`[Alphabot] Timeout on ${slug}, retrying... (${retries} left)`);
-      await new Promise(r => setTimeout(r, 3000));
+      const attempt = 4 - retries; // 1, 2, 3
+      const wait = attempt * 5000; // 5s, 10s, 15s
+      console.log(`[Alphabot] Timeout on ${slug}, retrying in ${wait/1000}s... (${retries} left)`);
+      await new Promise(r => setTimeout(r, wait));
       return enterRaffle(apiKey, slug, mintAddress, retries - 1);
     }
     if (status === 401) return { success: false, invalidKey: true, error: message };
